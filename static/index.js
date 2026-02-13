@@ -1,117 +1,168 @@
-const uploadForm = document.getElementById("uploadForm");
-const recipeSearch = document.getElementById("recipeSearch");
+// Global Variables
+let presets = [];
 const resultsList = document.getElementById("searchResults");
 const feed = document.getElementById("feed");
+const uploadForm = document.getElementById("uploadForm");
+const recipeSearch = document.getElementById("recipeSearch");
 
-let presets = [];
+// 1. INITIALIZATION LOGIC
+document.addEventListener("DOMContentLoaded", () => {
+    // Check if we have data in memory. If not, load the defaults once.
+    if (!localStorage.getItem('myUploadedRecipes')) {
+        const defaultRecipes = [
+            {
+                id: 101,
+                name: "Classic Apple Pie",
+                price: "15.00",
+                ingredients: ["Apples", "Cinnamon", "Sugar", "Flour", "Butter"],
+                steps: ["Preheat oven to 400F", "Mix apples with sugar", "Bake for 45 mins"],
+                photo: "https://t4.ftcdn.net/jpg/00/59/96/75/360_F_59967553_9g2bvhTZf18zCmEVWcKigEoevGzFqXzq.jpg",
+                rating: 5,
+                isFavorite: true
+            },
+            {
+                id: 102,
+                name: "Chocolate Chip Cookies",
+                price: "8.00",
+                ingredients: ["Chocolate Chips", "Flour", "Eggs", "Sugar"],
+                steps: ["Mix ingredients", "Scoop onto pan", "Bake at 350F for 10 mins"],
+                photo: "https://t4.ftcdn.net/jpg/00/50/92/77/360_F_50927710_elmSp0YX0pbB8c72wi2bFXbTOu7U0dTU.jpg",
+                rating: 4,
+                isFavorite: false
+            }
+        ];
+        localStorage.setItem('myUploadedRecipes', JSON.stringify(defaultRecipes));
+    }
 
-// Load presets from server
-fetch('/api/foods') // Update server.js to point to your new json
-    .then(res => res.json())
-    .then(data => presets = data);
+    // Load presets (for search suggestions)
+    fetch('/api/foods')
+        .then(res => res.json())
+        .then(data => {
+            presets = data;
+            // IF ON HOME PAGE: Render the memory
+            if (feed) {
+                renderFullCollection();
+            }
+        });
 
-// 1. SEARCH LOGIC (User Story 1 / IH#4 / IH#7)
-recipeSearch.addEventListener("input", (e) => {
-    const query = e.target.value.toLowerCase();
-    resultsList.innerHTML = "";
-    if (query.length < 1) return resultsList.classList.add("hidden");
-
-    const matches = presets.filter(r => r.name.toLowerCase().includes(query));
-    matches.forEach(match => {
-        const li = document.createElement("li");
-        li.textContent = match.name;
-        li.onclick = () => addRecipeToFeed(match);
-        resultsList.appendChild(li);
-    });
-    resultsList.classList.remove("hidden");
+    if (uploadForm) {
+        setupUploadHandler();
+    }
 });
 
-// 2. UPLOAD LOGIC (User Story 3 - No Text Inputs)
-uploadForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const fileInput = document.getElementById("recipeFile");
-    const imageInput = document.getElementById("recipeImage");
-    const file = fileInput.files[0];
+// 2. RENDERING LOGIC
+function renderFullCollection() {
+    feed.innerHTML = ""; 
+    const savedRecipes = JSON.parse(localStorage.getItem('myUploadedRecipes') || "[]");
     
-    if (!file) {
-        alert("Error: Please select a .txt file.");
+    if (savedRecipes.length === 0) {
+        feed.innerHTML = "<p style='grid-column: 1/4; text-align: center; color: #888;'>Your collection is empty. Add a recipe to get started!</p>";
         return;
     }
 
-    try {
-        const text = await file.text();
+    savedRecipes.forEach(recipe => addRecipeToFeed(recipe));
+}
+
+// 3. SEARCH LOGIC
+if (recipeSearch) {
+    recipeSearch.addEventListener("input", (e) => {
+        const query = e.target.value.toLowerCase();
+        resultsList.innerHTML = "";
+        if (query.length < 1) { resultsList.classList.add("hidden"); return; }
+
+        // Search within the user's current saved recipes
+        const saved = JSON.parse(localStorage.getItem('myUploadedRecipes') || "[]");
+        const matches = saved.filter(r => r.name.toLowerCase().includes(query));
         
-        // Split by newlines, carriage returns, OR if the file is one giant line, 
-        // look for common delimiters like "1." or "$"
-        let lines = text.split(/\r\n|\r|\n/).map(l => l.trim()).filter(l => l.length > 0);
+        matches.forEach(match => {
+            const li = document.createElement("li");
+            li.textContent = match.name;
+            li.onclick = () => {
+                feed.innerHTML = "";
+                addRecipeToFeed(match);
+                resultsList.classList.add("hidden");
+                recipeSearch.value = match.name;
+            };
+            resultsList.appendChild(li);
+        });
+        resultsList.classList.remove("hidden");
+    });
+}
 
-        // Fallback: If it's still 1 line, try splitting by specific patterns
-        if (lines.length === 1) {
-            // Attempt to split by numbered lists (e.g., "1. ")
-            lines = text.split(/(?=\d\.\s)/); 
+// 4. ADD RECIPE LOGIC
+function setupUploadHandler() {
+    uploadForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const fileInput = document.getElementById("recipeFile");
+        const imageInput = document.getElementById("recipeImage");
+        const recipeFile = fileInput.files[0];
+        const imageFile = imageInput.files[0];
+        
+        if (!recipeFile) return alert("Please select a .txt file.");
+
+        try {
+            const text = await recipeFile.text();
+            let lines = text.split(/\r\n|\r|\n/).map(l => l.trim()).filter(l => l.length > 0);
+
+            // HELPER: Convert image to Base64 string so it can be saved in memory
+            let imageDataUrl = "https://cdn-icons-png.flaticon.com/512/706/706164.png"; // Default
+            
+            if (imageFile) {
+                imageDataUrl = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onloadend = () => resolve(reader.result);
+                    reader.readAsDataURL(imageFile);
+                });
+            }
+
+            const newRecipe = {
+                id: Date.now(),
+                name: lines[0] || "New Recipe",
+                price: lines[1] || "0.00",
+                ingredients: lines[2] ? lines[2].split(',') : [],
+                steps: lines.slice(3),
+                photo: imageDataUrl, // This is now a permanent data string
+                isFavorite: false
+            };
+
+            const current = JSON.parse(localStorage.getItem('myUploadedRecipes') || "[]");
+            current.push(newRecipe);
+            localStorage.setItem('myUploadedRecipes', JSON.stringify(current));
+
+            alert("Success! Image and Recipe saved. (IH#6)");
+            window.location.href = "/"; 
+
+        } catch (err) {
+            console.error(err);
+            alert("Error reading files.");
         }
+    });
+}
 
-        if (lines.length < 2) {
-            alert("File format error: Ensure your name, price, and ingredients are on different lines.");
-            return;
-        }
-
-        // Mapping logic with safety checks
-        const name = lines[0];
-        const price = lines[1] ? lines[1].replace(/[^0-9.]/g, '') : "0.00"; // Extracts just the number
-        const ingredients = lines[2] ? lines[2].split(',').map(i => i.trim()) : ["See steps"];
-        const steps = lines.slice(3);
-
-        const newRecipe = {
-            name: name,
-            price: price,
-            ingredients: ingredients,
-            steps: steps.length > 0 ? steps : ["No steps provided."],
-            photo: imageInput.files[0] ? URL.createObjectURL(imageInput.files[0]) : "https://cdn-icons-png.flaticon.com/512/706/706164.png",
-            rating: 5,
-            isFavorite: false
-        };
-
-        addRecipeToFeed(newRecipe);
-        uploadForm.reset();
-        alert("Recipe processed successfully! (IH#6)");
-
-    } catch (err) {
-        console.error("Parsing error:", err);
-        alert("Error reading file.");
-    }
-});
-
-// 3. DISPLAY LOGIC (User Story 2 / IH#3)
+// 5. DISPLAY & INTERACTION LOGIC
 function addRecipeToFeed(recipe) {
     const card = document.createElement("article");
     card.className = "post";
-    
     const starClass = recipe.isFavorite ? 'active' : 'inactive';
     const starIcon = recipe.isFavorite ? '★' : '☆';
 
-    // Separate HTML elements for each piece of data
     card.innerHTML = `
         <div class="favorite-star ${starClass}" title="Toggle Favorite">${starIcon}</div>
         <img src="${recipe.photo}" class="post-image">
-        
         <h3>${recipe.name}</h3> 
-        
         <div class="recipe-info">
-            <p class="price"><strong>Price:</strong> $${recipe.price}</p>
-            <p class="ingredients"><strong>Ingredients:</strong> ${recipe.ingredients.join(', ')}</p>
+            <p><strong>Price:</strong> $${recipe.price}</p>
+            <p><strong>Ingredients:</strong> ${recipe.ingredients.join(', ')}</p>
         </div>
-
-        <div class="recipe-steps" style="display:none; font-size: 0.85rem; margin-top: 10px; text-align: left;">
+        <div class="recipe-steps" style="display:none; font-size: 0.85rem; margin-top: 10px;">
             <strong>Steps:</strong>
             <ol>${recipe.steps.map(step => `<li>${step}</li>`).join('')}</ol>
         </div>
-        
         <button class="view-steps-btn">View Steps</button>
         <button class="delete-btn">Remove</button>
     `;
     
-    // Toggle Steps Visibility
+    // Toggle Steps
     const stepsDiv = card.querySelector(".recipe-steps");
     card.querySelector(".view-steps-btn").onclick = (e) => {
         const isHidden = stepsDiv.style.display === "none";
@@ -119,19 +170,34 @@ function addRecipeToFeed(recipe) {
         e.target.textContent = isHidden ? "Hide Steps" : "View Steps";
     };
 
-    // Favorite Logic
+    // PERSISTENT FAVORITE LOGIC
     const starBtn = card.querySelector(".favorite-star");
     starBtn.onclick = () => {
         recipe.isFavorite = !recipe.isFavorite;
+        
+        // Update Local Storage
+        const saved = JSON.parse(localStorage.getItem('myUploadedRecipes') || "[]");
+        const index = saved.findIndex(r => r.id === recipe.id);
+        if (index !== -1) {
+            saved[index].isFavorite = recipe.isFavorite;
+            localStorage.setItem('myUploadedRecipes', JSON.stringify(saved));
+        }
+
+        // Update UI
         starBtn.classList.toggle("active");
         starBtn.classList.toggle("inactive");
         starBtn.textContent = recipe.isFavorite ? '★' : '☆';
     };
 
-    // Delete Logic
+    // PERSISTENT DELETE LOGIC
     card.querySelector(".delete-btn").onclick = () => {
-        if(confirm("Permanently delete this recipe? (IH#8)")) card.remove();
+        if(confirm("Permanently delete this recipe? (IH#8)")) {
+            const saved = JSON.parse(localStorage.getItem('myUploadedRecipes') || "[]");
+            const filtered = saved.filter(r => r.id !== recipe.id);
+            localStorage.setItem('myUploadedRecipes', JSON.stringify(filtered));
+            card.remove();
+        }
     };
 
-    feed.prepend(card);
+    if (feed) feed.prepend(card);
 }

@@ -2,40 +2,35 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Baking Organizer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Baking Organizer - My Collection</title>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <header>
-    <h1>Recipe Organizer</h1>
-    <p id="help-text">Use the search bar to find preset recipes or upload a .txt file to add your own. (IH#1)</p>
+    <h1>Recipe Collection</h1>
+    <nav class="top-nav">
+      <a href="/add-recipe" class="home-btn">+ Add Recipe</a>
+    </nav>
   </header>
 
   <main>
     <section class="search-section">
-      <div class="search-container">
-        <input type="text" id="recipeSearch" placeholder="Search presets (e.g. Apple)..." autocomplete="off">
-        <button id="searchBtn">🔍 Search</button> <ul id="searchResults" class="results-list hidden"></ul>
+      <div class="form-header">
+        <h2>Find a Recipe</h2>
+        <div class="search-container">
+          <input type="text" id="recipeSearch" placeholder="Search presets (e.g. Apple)..." autocomplete="off">
+          <ul id="searchResults" class="results-list hidden"></ul>
+        </div>
       </div>
+      <p id="help-text-home" style="font-size: 0.8rem; color: #666;">
+        Type a keyword to search your saved presets. Press Enter or click the result to view. (IH#1 & IH#7)
+      </p>
     </section>
 
-    <section class="upload-form">
-      <h2>Add New Recipe</h2>
-      <p><small>Note: Text file processing takes ~2 seconds. (IH#2)</small></p>
-      <form id="uploadForm">
-        <label for="recipeFile">Choose Recipe File (.txt):</label>
-        <input type="file" id="recipeFile" accept=".txt">
-        
-        <label for="recipeImage">Add Photo (Optional):</label> <input type="file" id="recipeImage" accept="image/*">
-        
-        <div class="form-actions">
-           <button type="submit" id="addBtn">Add Recipe</button>
-           <button type="button" id="cancelBtn">Cancel</button> </div>
-      </form>
-    </section>
+    <hr>
 
     <section id="feed">
-      <h2></h2>
       </section>
   </main>
 

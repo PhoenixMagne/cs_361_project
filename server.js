@@ -31,11 +31,21 @@ app.get('/api/foods', (req, res) => {
   }
 });
 
-app.get('/', (req, res) => { //routing for the home page
-  res.render('index', {
-    posts: loadPosts(),
-    isSinglePostPage: false //saying its for the full home page
-  });
+// app.get('/', (req, res) => { //routing for the home page
+//   res.render('index', {
+//     posts: loadPosts(),
+//     isSinglePostPage: false //saying its for the full home page
+//   });
+// });
+
+// Home Page (Main viewer and search)
+app.get('/', (req, res) => {
+  res.render('index'); // This will now point to your new collection view
+});
+
+// Add Recipes Page (The upload interface)
+app.get('/add-recipe', (req, res) => {
+  res.render('add_recipe'); // This points to the upload form page
 });
 
 app.get('/posts/:n', (req, res, next) => { //routing for individual posts

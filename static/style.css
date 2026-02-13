@@ -58,6 +58,47 @@ select {
   width: 102.6%;
 }
 
+/* Navigation Container */
+header {
+  position: relative; /* Allows absolute positioning of the nav */
+  background: #bc8f8f;
+  padding: 30px 20px;
+  color: white;
+}
+
+.top-nav {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+/* Home/Add Button Styling */
+.home-btn {
+  background-color: #d2b48c; /* Tan color */
+  color: #3e2723;            /* Dark brown text */
+  padding: 8px 16px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  transition: background 0.3s ease;
+}
+
+.home-btn:hover {
+  background-color: #c1a37a; /* Darker tan on hover */
+  color: #fff;
+}
+
+/* Ensure the header title doesn't hit the button on small screens */
+@media (max-width: 600px) {
+  header h1 {
+      font-size: 1.4rem;
+      text-align: left;
+      padding-right: 100px;
+  }
+}
+
 button {
   background: #d2b48c;
   color: white;

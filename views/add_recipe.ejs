@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Baking Organizer - Add New</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header>
+    <h1>Add New Recipe</h1>
+    <nav class="top-nav">
+      <a href="/" class="home-btn">🏠 Home</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="add-post-form">
+      <h2>Upload Recipe Details</h2>
+      <p><strong>Heuristic Note:</strong> Text file processing takes approx. 2 seconds. (IH#2)</p>
+      
+      <form id="uploadForm">
+        <label for="recipeFile">Choose Recipe Text File (.txt):</label>
+        <input type="file" id="recipeFile" accept=".txt" required>
+        
+        <label for="recipeImage" style="margin-top: 15px; display: block;">Upload Finished Product Photo:</label>
+        <input type="file" id="recipeImage" accept="image/*">
+        
+        <div class="form-actions" style="display: flex; gap: 10px; margin-top: 20px;">
+          <button type="submit" id="addBtn">Add to Collection</button>
+          <button type="button" id="cancelBtn" onclick="window.location.href='/'" style="background: #bbb; color: white;">Cancel</button>
+        </div>
+      </form>
+    </section>
+
+    <section style="background: #fff8e1; padding: 15px; border-radius: 8px; border: 1px solid #ffe082;">
+      <h3>How to format your .txt file (IH#1)</h3>
+      <p style="font-size: 0.9rem;">
+        Line 1: Name <br>
+        Line 2: Price (e.g. 10.00) <br>
+        Line 3: Ingredients (separated by commas) <br>
+        Line 4+: Instructions/Steps
+      </p>
+    </section>
+  </main>
+
+  <script src="/index.js"></script>
+</body>
+</html>
