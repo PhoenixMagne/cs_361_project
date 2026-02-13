@@ -1,0 +1,76 @@
+[
+    {
+        "type":"fruit",
+        "name":"apple",
+        "calories_per_100g": 52,
+        "photo": "https://t4.ftcdn.net/jpg/00/59/96/75/360_F_59967553_9g2bvhTZf18zCmEVWcKigEoevGzFqXzq.jpg"
+    },
+    {
+        "type": "fruit",
+        "name": "banana",
+        "calories_per_100g": 96,
+        "photo": "https://as2.ftcdn.net/jpg/00/87/50/55/1000_F_87505567_78uwIY5l4FZaboFjLgRVuk46fGKawOFu.jpg"
+
+
+    },
+    {
+        "type": "fruit",
+        "name": "orange",
+        "calories_per_100g": 43,
+        "photo": "https://t3.ftcdn.net/jpg/00/56/01/00/360_F_56010077_UA98ADMw95rEB2hCuAlFOJkjdirrAAPV.jpg"
+       
+    },
+
+
+    {
+        "type": "vegetable",
+        "name": "carrot",
+        "calories_per_100g": 41,
+        "photo": "https://as2.ftcdn.net/jpg/00/71/36/03/1000_F_71360376_G0SLNngTSNkyMrLk5azVPbRZPE56lYPs.jpg"
+    },
+    {
+        "type": "vegetable",
+        "name": "broccoli",
+        "calories_per_100g": 55,
+        "photo": "https://as2.ftcdn.net/jpg/00/71/36/03/1000_F_71360376_G0SLNngTSNkyMrLk5azVPbRZPE56lYPs.jpg"
+    },
+    {
+        "type": "vegetable",
+        "name": "spinach",
+        "calories_per_100g": 23,
+        "photo": "https://t3.ftcdn.net/jpg/02/32/37/90/360_F_232379006_tKm2eDwZJ2RQ8bq6AGlAjPa6FZy1GmN0.jpg"
+    },
+
+
+    {
+        "type": "grain",
+        "name": "rice",
+        "calories_per_100g": 130,
+        "photo": "https://t3.ftcdn.net/jpg/02/16/51/68/360_F_216516858_c3V4MJK2N2Msa96LX8Oui654n41vQjWt.jpg"
+    },
+    {
+        "type": "grain",
+        "name": "bread",
+        "calories_per_100g": 265,
+        "photo": "https://t4.ftcdn.net/jpg/00/50/92/77/360_F_50927710_elmSp0YX0pbB8c72wi2bFXbTOu7U0dTU.jpg"
+    },
+   
+    {
+        "type": "meat",
+        "name": "chicken breast",
+        "calories_per_100g": 165,
+        "photo": "https://t4.ftcdn.net/jpg/00/50/92/77/360_F_50927710_elmSp0YX0pbB8c72wi2bFXbTOu7U0dTU.jpg"
+    },
+    {
+        "type": "meat",
+        "name": "salmon",
+        "calories_per_100g": 208,
+        "photo": "https://t4.ftcdn.net/jpg/02/12/37/63/360_F_212376358_hEeAulufAEmVFmTFTQKAuFPH4xKolOUI.jpg"
+    },
+    {
+        "type": "meat",
+        "name": "beef",
+        "calories_per_100g": 250,
+        "photo": "https://t4.ftcdn.net/jpg/00/96/92/01/360_F_96920105_CVAmQPNjzatHcxxY3vSST215i8ttfzii.jpg"
+    }
+]

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CalorieSync</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header>
+    <h1>CalorieSync</h1>
+  </header>
+
+  <main>
+    <!-- Progress Circle -->
+    <aside class="progress-container">
+      <div class="progress-circle" id="progressCircle">
+        <span id="progressText">0%</span>
+      </div>
+    </aside>
+
+    <!-- Daily Goal Form (separate) -->
+    <section class="goal-form">
+      <h2>Set Your Daily Calorie Goal</h2>
+      <form id="goalForm">
+        <input type="number" id="dailyGoal" placeholder="e.g. 2000" required>
+        <button type="submit">Set Goal</button>
+      </form>
+    </section>
+
+    <!-- Add Food Post Form -->
+    <section class="add-post-form">
+      <div class="form-header">
+        <h2>Add Food</h2>
+        
+        <div class="search-container">
+          <input type="text" id="foodSearch" placeholder="Search presets..." autocomplete="off">
+          <ul id="searchResults" class="results-list hidden"></ul>
+        </div>
+      </div>
+
+      <form id="newPostForm">
+        <label>Food Image:</label>
+        <input type="file" id="foodImage" accept="image/*"><br><br> 
+        <!-- add a span to show user that preset worked -->
+          <span id="imageStatus" style="margin-left: 10px; font-size: 0.9rem; color: #4caf50;"></span>
+          <br><br> 
+        <!-- additional input to store preset image URL -->
+        <input type="hidden" id="presetImage">
+
+
+        <label>Food Name:</label>
+        <input type="text" id="foodName" required><br><br>
+
+
+        <label>Calories:</label>
+        <input type="number" id="calories" required><br><br>
+        
+        <label>Description:</label>
+        <textarea id="description" required></textarea><br><br>
+
+        <button type="submit">Add Post</button>
+      </form>
+    </section>
+
+    <!-- Feed -->
+     <!-- If they want to post, then it pops up this feed -->
+    <section id="feed">
+      <% if (isSinglePostPage) { %>
+        <h2>Post Details</h2>
+      <% } %>
+      
+      <% posts.forEach((post, index) => { %>
+        <article class="post">
+          <% if (post.image) { %>
+            <img src="<%= post.image %>" alt="<%= post.name %>" class="post-image">
+          <% } %>
+          <h3><%= post.name %></h3>
+          <p class="calories">Calories: <strong><%= post.calories %></strong></p>
+          <p class="description"><%= post.description %></p>
+          <% if (!isSinglePostPage) { %>
+            <a href="/posts/<%= index %>" class="view-post-link">View Details</a>
+          <% } %>
+        </article>
+      <% }); %>
+<!-- if theres no post yet, this pops up on the bottom-->
+      <% if (posts.length === 0) { %>
+        <p class="no-posts">No food posts yet. Add your first post!</p>
+      <% } %>
+    </section>
+  </main>
+
+  <!-- Add Post Button -->
+  <footer>
+    <button id="addPostBtn">➕ Add Post</button>
+  </footer>
+
+  <script src="/index.js"></script>
+</body>
+</html>

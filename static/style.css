@@ -1,0 +1,235 @@
+/* general */
+body {
+  margin: 0;
+  font-family: "Roboto", sans-serif;
+  background: #f7f9fc;
+  color: #333;
+}
+
+header {
+  background: #4caf50;
+  padding: 20px;
+  text-align: center;
+  color: white;
+  font-size: 1.8rem;
+  font-weight: 400;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+main {
+  padding: 20px;
+  max-width: 900px;
+  margin: auto;
+}
+
+/* progress Circle */
+.progress-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.progress-circle {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  border: 12px solid #ddd;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.4rem;
+  background: white;
+  font-weight: 400;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Color states */
+.progress-circle.green {
+  border-color: #4caf50;
+}
+
+.progress-circle.yellow {
+  border-color: #ffb300;
+}
+
+.progress-circle.red {
+  border-color: #e53935;
+}
+
+.progress-circle.over {
+  border-color: #b71c1c;
+  animation: overPulse 1s infinite;
+}
+
+/* Glow when full */
+.progress-circle.full {
+  box-shadow: 0 0 18px rgba(76, 175, 80, 0.9);
+}
+
+/* Over 100% pulse */
+@keyframes overPulse {
+  0% { box-shadow: 0 0 0px rgba(183, 28, 28, 0.8); }
+  50% { box-shadow: 0 0 18px rgba(183, 28, 28, 1); }
+  100% { box-shadow: 0 0 0px rgba(183, 28, 28, 0.8); }
+}
+
+/* forms */
+.goal-form, .add-post-form {
+  background: white;
+  padding: 20px;
+  padding-right: 40px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.goal-form h2, .add-post-form h2 {
+  margin-top: 0;
+  font-size: 1.3rem;
+  font-weight: 400;
+}
+
+input, textarea, button, select {
+  width: 100%;
+  font-size: 1rem;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #bbb;
+  margin-top: 5px;
+}
+
+select {
+  width: 102.6%;
+}
+
+button {
+  background: #4caf50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 102.6%;
+}
+
+button:hover {
+  background: #43a047;
+}
+
+/* preset search box styles */
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.search-container {
+  position: relative;
+  width: 250px;
+}
+
+#foodSearch {
+  margin-top: 0;
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  border-radius: 20px;
+}
+
+/* dropdown presets styles */
+.results-list {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 100%;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  list-style: none;
+  padding: 0;
+  margin: 5px 0 0 0;
+  z-index: 100;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.results-list.hidden {
+  display: none;
+}
+
+/* dropdown list items */
+.results-list li {
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+}
+
+.results-list li:hover {
+  background-color: #f0f7f1;
+  color: #4caf50;
+}
+
+.results-list li span.meta {
+  color: #888;
+  font-size: 0.8rem;
+}
+
+/* feed */
+#feed {
+  margin-top: 25px;
+}
+
+.post {
+  background: white;
+  padding: 18px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.post-image {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+
+.calories {
+  font-size: 1rem;
+  color: #d32f2f;
+  margin: 5px 0;
+}
+
+.description {
+  color: #555;
+}
+
+.view-post-link {
+  display: inline-block;
+  margin-top: 10px;
+  color: #4caf50;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.view-post-link:hover {
+  text-decoration: underline;
+}
+
+/* footer */
+footer {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
+
+#addPostBtn {
+  background: #4caf50;
+  padding: 15px 20px;
+  border-radius: 50px;
+  font-size: 1.1rem;
+}

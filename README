@@ -1,0 +1,57 @@
+<Accessing and modifying instructions>
+
+just like the other assignments in cs290 you can just 
+git clone <ssh key>
+in the terminal and make a clone of the project. 
+
+IMPORTANT: everyone should pull the latest changes from the repo before making
+any changes to make sure there are no conflicts
+
+When making changes, try to only change small things and then make a
+commit w/ a good comment saying what you did. example:
+
+git add <files you changed, could be "*" to add all files>
+git commit -m "added a new feature that does xyz"
+git push origin main
+
+if you get an error saying "failed to push some refs because of non fast-forward"
+then that means that someone else has made changes to the repo since you last pulled.
+in this case, do a 
+git pull origin main
+and then repeat the steps above after resolving any merge conflicts.
+
+doing this regularly will help make sure that we don't have a lot of merge conflicts
+when multiple people are working on the same files.
+
+<TODO list>
+* EVERYONE should sign their own name at the top of this readme file, to
+  make sure that the repo works and everyone has a history on this project.
+
+* add sam's assignment 4 code
+
+* make sure code works and can create a server
+
+* modify code to have a new look (ideally new color scheme but maybe we
+get the website working first)
+
+<FEATURES TO ADD>
+
+* modify posts to fit the calorie counter theme
+
+* allow users to upload pictures of their food directly
+
+* allow permanent post creation
+
+* allow user accounts
+
+* make the site look better
+
+* make the posts look different when clicked on, should expand to show
+  nutrition and calorie info
+
+* add a comment system so other people can comment on posts
+
+* add a like system so people can like posts
+
+* change the name to non capitalized bc it shouldn't be 😭 Can't 
+  do this until after the demo bc it would break the link but dw about it

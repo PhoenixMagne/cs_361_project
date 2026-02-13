@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CalorieSync</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <header>
+    <h1>CalorieSync</h1>
+  </header>
+
+  <main>
+    <!-- Progress Circle -->
+    <aside class="progress-container">
+      <div class="progress-circle" id="progressCircle">
+        <span id="progressText">0%</span>
+      </div>
+    </aside>
+
+    <!-- Daily Goal Form (separate) -->
+    <section class="goal-form">
+      <h2>Set Your Daily Calorie Goal</h2>
+      <form id="goalForm">
+        <input type="number" id="dailyGoal" placeholder="e.g. 2000" required>
+        <button type="submit">Set Goal</button>
+      </form>
+    </section>
+
+    <!-- Add Food Post Form -->
+    <section class="add-post-form">
+      <h2>Add Food</h2>
+      <form id="newPostForm">
+        <label>Food Image:</label>
+        <input type="file" id="foodImage" accept="image/*" required><br><br>
+
+        <label>Food Name:</label>
+        <input type="text" id="foodName" required><br><br>
+
+        <!-- calories input has a dropdown menu with preset inputs and also the custom option,
+        updates its field based on the selection -->
+        <label>Calories:</label>
+          <select id="caloriePreset" required>
+            <option value="" disabled selected>Select amount...</option>
+            <option value="100">100 - Snack</option>
+            <option value="250">250 - Light Meal</option>
+            <option value="500">500 - Standard Meal</option>
+            <option value="800">800 - Large Meal</option>
+            <option value="custom">Custom Input</option>
+          </select>
+
+          <input type="number" id="calories" placeholder="Enter exact calories" style="display: none;"><br><br>
+
+        <label>Description:</label>
+        <textarea id="description" required></textarea><br><br>
+
+        <button type="submit">Add Post</button>
+      </form>
+    </section>
+
+    <!-- Feed -->
+    <section id="feed">
+      <!-- Posts will appear here -->
+    </section>
+  </main>
+  
+  <!-- Add Post Button -->
+  <footer>
+    <button id="addPostBtn">➕ Add Post</button>
+  </footer>
+
+  <script src="/script.js"></script>
+</body>
+</html>
