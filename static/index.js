@@ -63,21 +63,34 @@ function renderFullCollection() {
     savedRecipes.forEach(recipe => addRecipeToFeed(recipe));
 }
 
-// 3. SEARCH LOGIC
+// 1. SEARCH LOGIC (US#1 / IH#4 / IH#7)
 if (recipeSearch) {
     recipeSearch.addEventListener("input", (e) => {
         const query = e.target.value.toLowerCase();
         resultsList.innerHTML = "";
-        if (query.length < 1) { resultsList.classList.add("hidden"); return; }
-
-        // Search within the user's current saved recipes
-        const saved = JSON.parse(localStorage.getItem('myUploadedRecipes') || "[]");
-        const matches = saved.filter(r => r.name.toLowerCase().includes(query));
         
+        // IH#4: Familiar behavior - hide list if empty
+        if (query.length < 1) {
+            resultsList.classList.add("hidden");
+            renderFullCollection(); // Show all recipes if search is cleared
+            return;
+        }
+
+        // Get the most current collection from local memory
+        const currentStoredRecipes = JSON.parse(localStorage.getItem('myUploadedRecipes') || "[]");
+        
+        // Filter through all fields (Name and Ingredients) for better usability
+        const matches = currentStoredRecipes.filter(r => 
+            r.name.toLowerCase().includes(query) || 
+            r.ingredients.some(ing => ing.toLowerCase().includes(query))
+        );
+
         matches.forEach(match => {
             const li = document.createElement("li");
-            li.textContent = match.name;
+            li.innerHTML = `<span>${match.name}</span> <span class="meta">$${match.price}</span>`;
+            
             li.onclick = () => {
+                // IH#6 Clear next steps: Show the specific result
                 feed.innerHTML = "";
                 addRecipeToFeed(match);
                 resultsList.classList.add("hidden");
@@ -85,7 +98,21 @@ if (recipeSearch) {
             };
             resultsList.appendChild(li);
         });
+
         resultsList.classList.remove("hidden");
+    });
+
+    // IH#7: Multiple ways - Allow pressing "Enter" to filter the main feed
+    recipeSearch.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+            const query = e.target.value.toLowerCase();
+            const currentStoredRecipes = JSON.parse(localStorage.getItem('myUploadedRecipes') || "[]");
+            const matches = currentStoredRecipes.filter(r => r.name.toLowerCase().includes(query));
+            
+            feed.innerHTML = "";
+            matches.forEach(m => addRecipeToFeed(m));
+            resultsList.classList.add("hidden");
+        }
     });
 }
 
