@@ -7,7 +7,7 @@ body {
 }
 
 header {
-  background: #4caf50;
+  background: #bc8f8f;
   padding: 20px;
   text-align: center;
   color: white;
@@ -59,7 +59,7 @@ select {
 }
 
 button {
-  background: #4caf50;
+  background: #d2b48c;
   color: white;
   border: none;
   cursor: pointer;
@@ -68,7 +68,7 @@ button {
 }
 
 button:hover {
-  background: #43a047;
+  background: #c1a37a;
 }
 
 /* preset search box styles */
@@ -125,8 +125,8 @@ button:hover {
 }
 
 .results-list li:hover {
-  background-color: #f0f7f1;
-  color: #4caf50;
+  background-color: #fcf3e8;
+  color: #8d6e63;
 }
 
 .results-list li span.meta {
@@ -143,15 +143,40 @@ button:hover {
   align-items: start;
 }
 
+/* Position the card relatively so the star can be absolute within it */
 .post {
+  position: relative; /* Essential for positioning the star */
   background: white;
   padding: 15px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   display: flex;
   flex-direction: column;
-  height: 100%; /* Makes all cards in a row the same height */
-  box-sizing: border-box;
+}
+
+/* Style for the clickable star */
+.favorite-star {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 10;
+  text-shadow: 0 0 3px rgba(0,0,0,0.5); /* Helps visibility on light images */
+  transition: transform 0.2s ease;
+  user-select: none;
+}
+
+.favorite-star:hover {
+  transform: scale(1.2);
+}
+
+.favorite-star.active {
+  color: #ffca28; /* Gold color for favorited */
+}
+
+.favorite-star.inactive {
+  color: rgba(255, 255, 255, 0.8); /* Semi-transparent white for non-favorited */
 }
 
 .post-image {
@@ -164,11 +189,21 @@ button:hover {
 
 /* Ensure text doesn't overflow in smaller cards */
 .post h3 {
+  margin: 10px 0 5px 0;
+  font-size: 1.2rem;
+  color: #3e2723; /* Dark brown for the baking theme */
+  text-align: center;
+}
+
+.recipe-info p {
   margin: 5px 0;
-  font-size: 1.1rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: 0.9rem;
+  line-height: 1.4;
+}
+
+.price {
+  color: #8d6e63;
+  font-weight: bold;
 }
 
 .post p {
@@ -198,7 +233,7 @@ button:hover {
 .view-post-link {
   display: inline-block;
   margin-top: 10px;
-  color: #4caf50;
+  color: #8d6e63;
   text-decoration: none;
   font-weight: bold;
 }
@@ -215,7 +250,7 @@ footer {
 }
 
 #addPostBtn {
-  background: #4caf50;
+  background: #bc8f8f;
   padding: 15px 20px;
   border-radius: 50px;
   font-size: 1.1rem;
