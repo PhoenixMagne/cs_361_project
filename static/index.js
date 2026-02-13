@@ -1,157 +1,75 @@
-// Daily Goal & Progress
-let dailyGoal = 0;
-let caloriesConsumed = 0;
-
-const progressCircle = document.getElementById("progressCircle");
-const progressText = document.getElementById("progressText");
-
-document.getElementById("goalForm").addEventListener("submit", (e) => {
-    e.preventDefault();
-    dailyGoal = parseInt(document.getElementById("dailyGoal").value);
-});
-
-//clear preset image if user uploads a file manually
-document.getElementById("foodImage").addEventListener("change", () => {
-    document.getElementById("presetImage").value = "";
-});
-
-
-
-//Adding Posts (Client Side Only)
-const newPostForm = document.getElementById("newPostForm");
+const uploadForm = document.getElementById("uploadForm");
+const recipeSearch = document.getElementById("recipeSearch");
+const resultsList = document.getElementById("searchResults");
 const feed = document.getElementById("feed");
 
-newPostForm.addEventListener("submit", (e) => {
-    e.preventDefault();
+let presets = [];
 
-    const name = document.getElementById("foodName").value;
-    const calories = parseInt(document.getElementById("calories").value);
-    const description = document.getElementById("description").value;
-    const fileInput = document.getElementById("foodImage");
-    const presetInput = document.getElementById("presetImage");
-
-    if (fileInput.files.length === 0 && !presetInput.value) {
-        alert("Please upload an image or select a preset.");
-        return;
-    }
-
-    caloriesConsumed += calories;
-
-    const post = document.createElement("article");
-    post.classList.add("post");
-
-    let imgTag = "";
-    const file = fileInput.files[0];
-
-    if (file) {
-        const url = URL.createObjectURL(file);
-        imgTag = `<img src="${url}" class="post-image">`;
-    } else if (presetInput.value) {
-        imgTag = `<img src="${presetInput.value}" class="post-image">`;
-    }
-
-    post.innerHTML = `
-        ${imgTag}
-        <h3>${name}</h3>
-        <p class="calories">Calories: <strong>${calories}</strong></p>
-        <p class="description">${description}</p>
-    `;
-
-    feed.prepend(post);
-    newPostForm.reset();
-    presetInput.value = "";
-});
-
-// Add Post Button Scroll
-document.getElementById("addPostBtn").addEventListener("click", () => {
-    newPostForm.scrollIntoView({ behavior: "smooth" });
-});
-
-// Food item preset searching and handling
-const foodSearchInput = document.getElementById("foodSearch");
-const resultsList = document.getElementById("searchResults");
-
-let foodData = [];
-
-fetch('/api/foods')
+// Load presets from server
+fetch('/api/foods') // Update server.js to point to your new json
     .then(res => res.json())
-    .then(data => {
-        foodData = data;
-    })
-    .catch(err => console.error("Could not load food data", err));
+    .then(data => presets = data);
 
-foodSearchInput.addEventListener("input", (e) => {
+// 1. SEARCH LOGIC (User Story 1 / IH#4 / IH#7)
+recipeSearch.addEventListener("input", (e) => {
     const query = e.target.value.toLowerCase();
     resultsList.innerHTML = "";
+    if (query.length < 1) return resultsList.classList.add("hidden");
 
-    if (query.length < 1) {
-        resultsList.classList.add("hidden");
+    const matches = presets.filter(r => r.name.toLowerCase().includes(query));
+    matches.forEach(match => {
+        const li = document.createElement("li");
+        li.textContent = match.name;
+        li.onclick = () => addRecipeToFeed(match);
+        resultsList.appendChild(li);
+    });
+    resultsList.classList.remove("hidden");
+});
+
+// 2. UPLOAD LOGIC (User Story 3 - No Text Inputs)
+uploadForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const file = document.getElementById("recipeFile").files[0];
+    
+    if (!file) {
+        alert("Please select a .txt file to upload."); // IH#8
         return;
     }
 
-    const matches = foodData.filter(item =>
-        item.name.toLowerCase().includes(query)
-    );
+    const text = await file.text();
+    // Logic: Assume text file has Name on line 1, Price on line 2, then Ingredients
+    const lines = text.split('\n');
+    
+    const newRecipe = {
+        name: lines[0] || "Unnamed Recipe",
+        price: lines[1] || "0.00",
+        rating: 0,
+        isFavorite: false,
+        ingredients: lines.slice(2, 5),
+        steps: lines.slice(5),
+        photo: "https://cdn-icons-png.flaticon.com/512/706/706164.png"
+    };
 
-    if (matches.length > 0) {
-        matches.forEach(item => {
-            const li = document.createElement("li");
-            li.innerHTML = `
-                <span>${item.name}</span>
-                <span class="meta">${item.calories_per_100g} cal/100g</span>
-            `;
-
-            li.addEventListener("click", () => {
-                selectFood(item);
-            });
-
-            resultsList.appendChild(li);
-        });
-        resultsList.classList.remove("hidden");
-    } else {
-        resultsList.classList.add("hidden");
-    }
+    addRecipeToFeed(newRecipe);
+    uploadForm.reset();
+    alert("Recipe added! Scroll down to view. (IH#6)"); 
 });
 
-foodSearchInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-        e.preventDefault();
-        const firstResult = resultsList.querySelector("li");
-        if (firstResult) firstResult.click();
-    }
-});
+// 3. DISPLAY LOGIC (User Story 2 / IH#3)
+function addRecipeToFeed(recipe) {
+    const card = document.createElement("article");
+    card.className = "post";
+    card.innerHTML = `
+        <img src="${recipe.photo}" class="post-image">
+        <h3>${recipe.name} ${recipe.isFavorite ? '⭐' : ''}</h3>
+        <p><strong>Total Price:</strong> $${recipe.price}</p>
+        <p><strong>User Rating:</strong> ${recipe.rating}/5</p>
+        <p><strong>Ingredients:</strong> ${recipe.ingredients.join(', ')}</p>
+        <button class="delete-btn">Remove Recipe</button> `;
+    
+    card.querySelector(".delete-btn").onclick = () => {
+        if(confirm("Are you sure? This cannot be undone.")) card.remove(); // IH#8
+    };
 
-document.addEventListener("click", (e) => {
-    if (!foodSearchInput.contains(e.target) &&
-        !resultsList.contains(e.target)) {
-        resultsList.classList.add("hidden");
-    }
-});
-
-function selectFood(item) {
-    document.getElementById("foodName").value = item.name;
-    document.getElementById("calories").value = item.calories_per_100g;
-    document.getElementById("description").value = `A serving of ${item.type}`;
-
-    const fileInput = document.getElementById("foodImage");
-    const presetInput = document.getElementById("presetImage");
-
-    fileInput.value = "";
-
-    let finalUrl = "";
-    if (item.photo) finalUrl = item.photo;
-    else finalUrl = "https://cdn-icons-png.flaticon.com/512/706/706164.png";
-
-    presetInput.value = finalUrl;
-    imageStatus.innerHTML = "Preset selected - upload image to override preset image";
-
-    foodSearchInput.value = "";
-    resultsList.classList.add("hidden");
+    feed.prepend(card);
 }
-
-const imageStatus = document.getElementById("imageStatus");
-
-document.getElementById("foodImage").addEventListener("change", () => {
-    document.getElementById("presetImage").value = "";
-    imageStatus.innerHTML = "";
-});
