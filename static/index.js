@@ -5,45 +5,9 @@ let caloriesConsumed = 0;
 const progressCircle = document.getElementById("progressCircle");
 const progressText = document.getElementById("progressText");
 
-function updateProgress() {
-    if (dailyGoal <= 0) {
-        progressText.textContent = "0%";
-        progressCircle.className = "progress-circle";
-        return;
-    }
-
-    const percent = Math.round((caloriesConsumed / dailyGoal) * 100);
-    progressText.textContent = percent + "%";
-
-    // reset classes
-    progressCircle.className = "progress-circle";
-
-    // under 50% → red
-    if (percent < 50) {
-        progressCircle.classList.add("red");
-    }
-    // 50% – 89% → yellow
-    else if (percent < 90) {
-        progressCircle.classList.add("yellow");
-    }
-    // 90% – 99% → green
-    else if (percent < 100) {
-        progressCircle.classList.add("green");
-    }
-    // exactly 100% → full glow green
-    else if (percent === 100) {
-        progressCircle.classList.add("green", "full");
-    }
-    // above 100% → danger red pulse
-    else if (percent > 100) {
-        progressCircle.classList.add("over");
-    }
-}
-
 document.getElementById("goalForm").addEventListener("submit", (e) => {
     e.preventDefault();
     dailyGoal = parseInt(document.getElementById("dailyGoal").value);
-    updateProgress();
 });
 
 //clear preset image if user uploads a file manually
@@ -72,7 +36,6 @@ newPostForm.addEventListener("submit", (e) => {
     }
 
     caloriesConsumed += calories;
-    updateProgress();
 
     const post = document.createElement("article");
     post.classList.add("post");

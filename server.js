@@ -16,17 +16,17 @@ app.use((req, _res, next) => { // gets date, method, url of request
 app.use(express.static(path.join(__dirname, 'static')));
 
 function loadPosts() {
-  // Ignoring food.json for now, this is just a placeholder if we want to add it
+  // Ignoring recipes.json for now, this is just a placeholder if we want to add it
   return [];
 }
 
 //parse json for food data that will be used as recipes in the add post form
 app.get('/api/foods', (req, res) => {
   try {
-    const foodData = fs.readFileSync(path.join(__dirname, 'food.json'), 'utf8'); //reads
+    const foodData = fs.readFileSync(path.join(__dirname, 'recipes.json'), 'utf8'); //reads
     res.json(JSON.parse(foodData)); //sends json data
   } catch (err) {
-    console.error("Error reading food.json:", err); //some error handling in case it fails
+    console.error("Error reading recipes.json:", err); //some error handling in case it fails
     res.json([]);
   }
 });

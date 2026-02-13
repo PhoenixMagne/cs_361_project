@@ -22,51 +22,6 @@ main {
   margin: auto;
 }
 
-/* progress Circle */
-.progress-container {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 25px;
-}
-
-.progress-circle {
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  border: 12px solid #ddd;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 1.4rem;
-  background: white;
-  font-weight: 400;
-  transition: border-color 0.4s ease, box-shadow 0.4s ease;
-}
-
-/* Color states */
-.progress-circle.green {
-  border-color: #4caf50;
-}
-
-.progress-circle.yellow {
-  border-color: #ffb300;
-}
-
-.progress-circle.red {
-  border-color: #e53935;
-}
-
-.progress-circle.over {
-  border-color: #b71c1c;
-  animation: overPulse 1s infinite;
-}
-
-/* Glow when full */
-.progress-circle.full {
-  box-shadow: 0 0 18px rgba(76, 175, 80, 0.9);
-}
-
 /* Over 100% pulse */
 @keyframes overPulse {
   0% { box-shadow: 0 0 0px rgba(183, 28, 28, 0.8); }
