@@ -65,8 +65,6 @@ app.use('*', (req, res) => {
   res.status(404).render('404');
 });
 
-
-
 app.listen(PORT, () => {
   console.log(`Server listening on http://localhost:${PORT}`);
 });

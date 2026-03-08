@@ -1,0 +1,3 @@
+[submodule "search_system_micriservice/CS361-Search"]
+	path = search_system_micriservice/CS361-Search
+	url = git@github.com:Bepzinky/CS361-Search.git
