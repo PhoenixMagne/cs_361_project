@@ -31,13 +31,6 @@ app.get('/api/foods', (req, res) => {
   }
 });
 
-// app.get('/', (req, res) => { //routing for the home page
-//   res.render('index', {
-//     posts: loadPosts(),
-//     isSinglePostPage: false //saying its for the full home page
-//   });
-// });
-
 // Home Page (Main viewer and search)
 app.get('/', (req, res) => {
   res.render('index'); // This will now point to your new collection view
