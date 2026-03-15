@@ -1,3 +1,6 @@
 [submodule "search_system_micriservice/CS361-Search"]
 	path = search_system_micriservice/CS361-Search
 	url = git@github.com:Bepzinky/CS361-Search.git
+[submodule "CS361-Microservice-Countdown-Timer"]
+	path = CS361-Microservice-Countdown-Timer
+	url = git@github.com:PhoenixMagne/CS361-Microservice-Countdown-Timer.git
