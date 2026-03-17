@@ -4,3 +4,9 @@
 [submodule "CS361-Microservice-Countdown-Timer"]
 	path = CS361-Microservice-Countdown-Timer
 	url = git@github.com:PhoenixMagne/CS361-Microservice-Countdown-Timer.git
+[submodule "CS361-Microservice-Recipe-Parser"]
+	path = CS361-Microservice-Recipe-Parser
+	url = git@github.com:PhoenixMagne/CS361-Microservice-Recipe-Parser.git
+[submodule "CS361-Microservice-Images"]
+	path = CS361-Microservice-Images
+	url = git@github.com:mikl81/CS361-Microservice-Images.git

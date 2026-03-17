@@ -8,7 +8,29 @@
 </head>
 <body>
   <header>
-    <h1>Recipe Collection</h1>
+    <div class="header-left">
+      <button id="timerMenuBtn" class="timerMenuBtn">+ Timers</button>
+      
+      <div id="timerDropdown" class="timer-window hidden">
+        <h3>Quick Timer</h3>
+        <div class="timer-input-group">
+          <input type="number" id="timerMins" placeholder="Min" min="0" style="width: 50px;">
+          <span>:</span>
+          <input type="number" id="timerSecs" placeholder="Sec" min="0" max="59" style="width: 50px;">
+          
+          <button id="startTimerBtn">Start</button>
+        </div>
+        <hr>
+        <div id="activeTimers">
+          <p class="empty-msg">No active timers.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-center">
+      <h1>Recipe Collection</h1>
+    </div>
+  
     <nav class="top-nav">
       <a href="/add-recipe" class="home-btn">+ Add Recipe</a>
     </nav>

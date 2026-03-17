@@ -1,4 +1,4 @@
-/* general */
+/* --- GENERAL --- */
 body {
   margin: 0;
   font-family: "Roboto", sans-serif;
@@ -6,134 +6,170 @@ body {
   color: #333;
 }
 
+/* --- HEADER NAVIGATION (Flexbox Layout) --- */
 header {
   background: #bc8f8f;
-  padding: 20px;
-  text-align: center;
+  padding: 15px 20px;
   color: white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  display: flex;             /* Magic for alignment */
+  justify-content: space-between; /* Spreads items to corners */
+  align-items: center;       /* Vertically centers everything */
+  position: relative;
+}
+
+.header-left, .top-nav {
+  flex: 0 0 150px; /* Gives both sides equal base width to keep title perfectly centered */
+}
+
+.header-center {
+  flex-grow: 1;
+  text-align: center;
+}
+
+header h1 {
+  margin: 0;
   font-size: 1.8rem;
   font-weight: 400;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
-main {
-  padding: 20px;
-  max-width: 1200px;
-  margin: auto;
-}
-
-/* Over 100% pulse */
-@keyframes overPulse {
-  0% { box-shadow: 0 0 0px rgba(183, 28, 28, 0.8); }
-  50% { box-shadow: 0 0 18px rgba(183, 28, 28, 1); }
-  100% { box-shadow: 0 0 0px rgba(183, 28, 28, 0.8); }
-}
-
-/* forms */
-.goal-form, .add-post-form {
-  background: white;
-  padding: 20px;
-  padding-right: 40px;
-  border-radius: 12px;
-  margin-bottom: 30px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.goal-form h2, .add-post-form h2 {
-  margin-top: 0;
-  font-size: 1.3rem;
-  font-weight: 400;
-}
-
-input, textarea, button, select {
-  width: 100%;
-  font-size: 1rem;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #bbb;
-  margin-top: 5px;
-}
-
-select {
-  width: 102.6%;
-}
-
-/* Navigation Container */
-header {
-  position: relative; /* Allows absolute positioning of the nav */
-  background: #bc8f8f;
-  padding: 30px 20px;
-  color: white;
-}
-
-.top-nav {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-}
-
-/* Home/Add Button Styling */
-.home-btn {
+/* --- BUTTONS (Timer & Add Recipe) --- */
+.home-btn, #timerMenuBtn {
   background-color: #d2b48c; /* Tan color */
-  color: #3e2723;            /* Dark brown text */
-  padding: 8px 16px;
+  color: #3e2723 !important; /* Dark brown text */
+  padding: 10px 18px;
   border-radius: 20px;
   text-decoration: none;
   font-weight: bold;
   font-size: 0.9rem;
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
   transition: background 0.3s ease;
+  border: none;
+  cursor: pointer;
+  display: inline-block;
+  width: auto; /* Overrides the global button width */
+  margin-top: 0;
 }
 
-.home-btn:hover {
-  background-color: #c1a37a; /* Darker tan on hover */
-  color: #fff;
+.home-btn:hover, #timerMenuBtn:hover {
+  background-color: #c1a37a;
+  color: #fff !important;
 }
 
-/* Ensure the header title doesn't hit the button on small screens */
-@media (max-width: 600px) {
-  header h1 {
-      font-size: 1.4rem;
-      text-align: left;
-      padding-right: 100px;
-  }
+/* --- TIMER WINDOW DROPDOWN --- */
+.header-left {
+  position: relative; 
 }
 
+.timer-window {
+  position: absolute;
+  top: 55px; /* Sits right below the header */
+  left: 0;
+  width: 240px;
+  background-color: #ffffff !important;
+  color: #333 !important;
+  border: 2px solid #d2b48c;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  padding: 20px;
+  z-index: 1000;
+}
+
+.timer-window.hidden {
+  display: none;
+}
+
+.timer-window h3 {
+  color: #222 !important;
+  margin-top: 0;
+  font-size: 1.1rem;
+}
+
+.timer-input-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Override global input/button styles inside the dropdown */
+.timer-input-group input {
+  width: 60px;
+  margin-top: 0;
+  text-align: center;
+}
+
+.timer-input-group button {
+  width: auto;
+  margin-top: 0;
+  padding: 8px 12px;
+}
+
+.time-display {
+  color: #d9534f !important; /* Red numbers */
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.timer-card {
+  background: #f9f9f9;
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 10px;
+  border: 1px solid #eee;
+  color: #333;
+}
+
+/* --- MAIN CONTENT & FORMS --- */
+main {
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.goal-form, .add-post-form {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+input, textarea, select {
+  width: 100%;
+  font-size: 1rem;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #bbb;
+  margin-top: 5px;
+  box-sizing: border-box; /* Fixes the 102.6% width issue */
+}
+
+/* Global Button Style (for forms) */
 button {
   background: #d2b48c;
   color: white;
   border: none;
   cursor: pointer;
   margin-top: 10px;
-  width: 102.6%;
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: bold;
 }
 
-button:hover {
-  background: #c1a37a;
-}
-
-/* preset search box styles */
+/* --- SEARCH SECTION --- */
 .form-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 15px;
-  position: relative;
 }
 
 .search-container {
   position: relative;
-  width: 250px;
+  width: 300px;
 }
 
-#foodSearch {
-  margin-top: 0;
-  padding: 8px 12px;
-  font-size: 0.9rem;
-  border-radius: 20px;
-}
-
-/* dropdown presets styles */
 .results-list {
   position: absolute;
   top: 100%;
@@ -145,48 +181,21 @@ button:hover {
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   list-style: none;
   padding: 0;
-  margin: 5px 0 0 0;
   z-index: 100;
-  max-height: 200px;
-  overflow-y: auto;
 }
 
-.results-list.hidden {
-  display: none;
-}
+.results-list.hidden { display: none; }
 
-/* dropdown list items */
-.results-list li {
-  padding: 10px 15px;
-  border-bottom: 1px solid #eee;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.9rem;
-}
-
-.results-list li:hover {
-  background-color: #fcf3e8;
-  color: #8d6e63;
-}
-
-.results-list li span.meta {
-  color: #888;
-  font-size: 0.8rem;
-}
-
-/* feed grid container */
+/* --- RECIPE FEED GRID --- */
 #feed {
   margin-top: 25px;
   display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Force 3 columns */
-  gap: 20px; /* Space between cards */
-  align-items: start;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
 }
 
-/* Position the card relatively so the star can be absolute within it */
 .post {
-  position: relative; /* Essential for positioning the star */
+  position: relative;
   background: white;
   padding: 15px;
   border-radius: 12px;
@@ -195,104 +204,27 @@ button:hover {
   flex-direction: column;
 }
 
-/* Style for the clickable star */
-.favorite-star {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  font-size: 1.5rem;
-  cursor: pointer;
-  z-index: 10;
-  text-shadow: 0 0 3px rgba(0,0,0,0.5); /* Helps visibility on light images */
-  transition: transform 0.2s ease;
-  user-select: none;
-}
-
-.favorite-star:hover {
-  transform: scale(1.2);
-}
-
-.favorite-star.active {
-  color: #ffca28; /* Gold color for favorited */
-}
-
-.favorite-star.inactive {
-  color: rgba(255, 255, 255, 0.8); /* Semi-transparent white for non-favorited */
-}
-
 .post-image {
   width: 100%;
-  height: 180px; /* Fixed height for consistency */
-  object-fit: cover; /* Crops image to fit the box without stretching */
+  height: 180px;
+  object-fit: cover;
   border-radius: 10px;
-  margin-bottom: 10px;
 }
 
-/* Ensure text doesn't overflow in smaller cards */
-.post h3 {
-  margin: 10px 0 5px 0;
-  font-size: 1.2rem;
-  color: #3e2723; /* Dark brown for the baking theme */
-  text-align: center;
-}
-
-.recipe-info p {
-  margin: 5px 0;
-  font-size: 0.9rem;
-  line-height: 1.4;
-}
-
-.price {
-  color: #8d6e63;
-  font-weight: bold;
-}
-
-.post p {
-  font-size: 0.9rem;
-  margin: 4px 0;
-}
-
-/* Responsiveness: 2 columns on tablets, 1 on mobile */
+/* --- RESPONSIVENESS --- */
 @media (max-width: 1000px) {
   #feed { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .header-left, .top-nav {
+    flex: 1;
+    width: 100%;
+    text-align: center;
+  }
   #feed { grid-template-columns: 1fr; }
-}
-
-.calories {
-  font-size: 1rem;
-  color: #d32f2f;
-  margin: 5px 0;
-}
-
-.description {
-  color: #555;
-}
-
-.view-post-link {
-  display: inline-block;
-  margin-top: 10px;
-  color: #8d6e63;
-  text-decoration: none;
-  font-weight: bold;
-}
-
-.view-post-link:hover {
-  text-decoration: underline;
-}
-
-/* footer */
-footer {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-}
-
-#addPostBtn {
-  background: #bc8f8f;
-  padding: 15px 20px;
-  border-radius: 50px;
-  font-size: 1.1rem;
 }
